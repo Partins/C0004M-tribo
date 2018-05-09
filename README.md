@@ -4,3 +4,5 @@ An FDM based solver for Poisson type of differential equations with application 
 scratch...pause. That's me, you might be wondering how i got here.
 
 Martin was here! Mohahaha!
+
+Lias was also here!
