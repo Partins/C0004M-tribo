@@ -1,0 +1,11 @@
+visc    = 10;                           % Viscosity [Pas] 
+U       = 5;                            % Runner speed [m/s]
+L       = 10;                           % Bearing length [m]
+hmin    = 0.0001;                       % Trailing edge film thickness [m]
+k       = linspace(0,1e-3,100);         % Slope parameter 
+x       = 0:0.1:10;                            % Position
+
+func = @(x,h) (6*visc*U)/(hmin(1+k-(k/L)*x));
+y = rungekutta4(func,x,y0);
+
+plot(
