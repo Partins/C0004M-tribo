@@ -3,9 +3,15 @@ U       = 5;                            % Runner speed [m/s]
 L       = 10;                           % Bearing length [m]
 hmin    = 0.0001;                       % Trailing edge film thickness [m]
 k       = linspace(0,1e-3,100);         % Slope parameter 
-x       = 0:0.1:10;                            % Position
+N       = ???;
 
-func = @(x,h) (6*visc*U)/(hmin(1+k-(k/L)*x));
-y = rungekutta4(func,x,y0);
+x(i) = i.*L./N;
+h = hmin(1+k-(k./L));
+a = h.^3/(12.*visc);
+F = U/2;
 
-plot(
+c(i) = (a(i-1)+a(i))/(2.*(x(i)-x(i-1).^2));
+d(i) = -(a(i-1)+2.*a(i)+a(i+1))/(2.*(x(i+1)-x(i-1)));
+e(i) = (a(i)+a(i+i))/(2.*(x(i+1)-x(i)));
+z(i) = (F(i+1)-F(i-1))/(2.*(x(i+1)-x(i-1)));
+g(i) = -(F(i)/)
