@@ -5,13 +5,21 @@ hmin    = 0.0001;                       % Trailing edge film thickness [m]
 k       = linspace(0,1e-3,100);         % Slope parameter 
 N       = ???;
 
-x(i) = i.*L./N;
 h = hmin(1+k-(k./L));
 a = h.^3/(12.*visc);
 F = U/2;
+deltax = L/N;
+    
+    for i = 1:N
+x(i) = i.*L./N;
 
-c(i) = (a(i-1)+a(i))/(2.*(x(i)-x(i-1).^2));
-d(i) = -(a(i-1)+2.*a(i)+a(i+1))/(2.*(x(i+1)-x(i-1)));
-e(i) = (a(i)+a(i+i))/(2.*(x(i+1)-x(i)));
-z(i) = (F(i+1)-F(i-1))/(2.*(x(i+1)-x(i-1)));
-g(i) = -(F(i)/)
+c(i) = (a(i-1)+a(i))/(2.*deltax.^2);
+d(i) = -(a(i-1)+2.*a(i)+a(i+1))/(2.*deltax.^2);
+e(i) = (a(i)+a(i+1))/(2.*deltax.^2);
+z(i) = (F(i+1)-F(i-1))/(2.*deltax);
+g(i) = -(F(i)/deltax);
+k(i) = F(i-1)/deltax;
+
+A = spdiags([c' d' e'],[-1 0 1],N,N);
+B = spdiags([g' k'],[-1 0],N,N);
+f = [z(1)-c(1*u(0)) z(2:end-1) z(N-1)-e(N-1)*u(N)];
