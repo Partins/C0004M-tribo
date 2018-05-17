@@ -1,0 +1,77 @@
+
+
+%Setup
+N       = 50;                           % Antal obekanta/Antal delar på intervallet.
+mu      = 0.01;                         % Viscosity [Pas] 
+U       = 1;                            % Runner speed [m/s]
+l       = 0.02;                         % Bearing length [m]
+hmin    = 10^-6;                        % Trailing edge film thickness [m]
+k       = linspace(0,1e-3,N+1);         % Slope parameter
+p0      = 0;                            % Vänster Randvillkor
+pL      = 0;                            % Höger randvillkor
+h = hmin.*(1+k-(k./l));                 % värden för h med längd N
+x = l/(N+1);                                % steglängd
+
+a = (h.^3)/(12*mu); %Längd N
+F = (U/2).*h;
+
+
+
+%diagonaler matris A
+
+c1 = (a(1:N-1)+a(2:N))/(2*x^2); %underdiag
+d1 = -(a(1:N-1)+2*a(2:N)+a(1:N-1))/(2*x^2); %huvudiag
+e1 = (a(1:N-1)+a(2:N))/(2.*x.^2); %överdiag
+
+%Högerled
+z = (F(2:N)-F(1:N-1))/(2*x);
+
+%Diagonaler matris B
+g(i) = -(F(i)/x);
+K(i) = F(i-1)/x;
+
+e = [0 e1(1:end-1)];
+c = [c1(2:end) 0];
+A = spdiags([c' d' e'],[-1 0 1],N-1,N-1); %Se ekv.31
+B = spdiags([g' K'],[-1 0],N-1,N-1); %Tror inte vi beh?ver den h?r
+f = [z(1)-c(1)*p(1) z(2:end-1) z(N-1)-e(N-1)*p(N)]'; %Se ekv.32
+
+u = A\f;
+p = [p(1) u' p(N)];
+plot(0:N,p);
+
+
+
+
+
+
+
+
+
+% %% Från inlämningsuppgift
+% %Funktion tillhörande uppgift14.m
+% 
+% function y = myapprox_danne(n,yl,yu) 
+% %Setup
+% 
+% h = 2/(n+1);     %Steglängd.
+% x = h:h:2-h;   %intervallet med steglängd h exklusive ändpunkterna 0 och 2.
+% 
+% v1 = [2-h*sqrt(x(2:n)) 0]'; %Undre diagonal
+% v2 = (2*h^2-4)*ones(n,1); %Huvud diagonal
+% v3 = [0 2+h*sqrt(x(1:n-1))]'; %Övre diagonal
+% A  = spdiags([v1 v2 v3],[-1 0 1],n,n);
+% 
+% %Högerledet Ax = hl
+% hl = (2.*h.^2.*x)';
+% hl(1) = hl(1)-(2-h*sqrt(x(1)))*yl; 
+% hl(end) = hl(end) - (2+h*sqrt(x(end)))*yu;
+% 
+% y = A\hl;
+% 
+% y = [yl;y;yu];
+% x = [0 x 2]';
+% 
+% plot(x,y)
+% 
+% end

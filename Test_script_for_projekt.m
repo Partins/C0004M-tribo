@@ -1,9 +1,11 @@
+%Setup
+
 visc    = 10;                           % Viscosity [Pas] 
 U       = 5;                            % Runner speed [m/s]
 L       = 10;                           % Bearing length [m]
 hmin    = 0.0001;                       % Trailing edge film thickness [m]
 k       = linspace(0,1e-3,100);         % Slope parameter 
-N       = 10;                          % Precision
+N       = 10;                           % Precision
 p(1)    = 0;
 p(N)    = 0;
 h = hmin.*(1+k-(k./L));

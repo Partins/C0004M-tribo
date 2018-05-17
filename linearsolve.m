@@ -7,7 +7,8 @@
  yL = 0;   %Randvillkor
  l = 1;    % Lagrets "längd"
  x = linspace(0,l,N); %intervall
- hmin = 4e-3; %minsta filmtjocklek
+ hmin = 0.0001; %minsta filmtjocklek
+ hmin = 0.0001; %minsta filmtjocklek
  k = 1; %Lutningskoefficient
  mu = 10; %Viskostitet
  i = 1.
