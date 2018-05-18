@@ -1,14 +1,14 @@
 %% Increasing x, while keeping konstant k.
 
 %Setup
-N       = 8;                            % Antal obekanta/Antal delar på intervallet.
+N       = 1000;                         % Antal obekanta/Antal delar på intervallet.
 mu      = 0.01;                         % Viscosity [Pas] 
 U       = 1;                            % Runner speed [m/s]
-l       = 0.04;                         % Bearing length [m]
+l       = 0.1;                         % Bearing length [m]
 hmin    = 10^-6;                        % Trailing edge film thickness [m]
-k       = 1e-4;                         % Slope parameter
-p0      = 0;                            % Vänster Randvillkor
-pL      = 0;                            % Höger randvillkor
+k       = 1.18;                            % Slope parameter [No dimension].
+p0      = 100000;                       % Vänster Randvillkor [Pa]
+pL      = 100000;                       % Höger randvillkor [Pa]
 xi      = l/(N);                        % steglängd
 x       = [xi:xi:l]                     % x axel
 
@@ -43,5 +43,5 @@ x = [0 x]
 p = [p0 u' pL];
 plot(x,p);
 
-%% Hitta för vilket k är störst.
-
+[maxp,xval] = max(p);
+xloc = xval/N;
