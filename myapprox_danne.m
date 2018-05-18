@@ -10,7 +10,7 @@ k       = 10^-14;                         % Slope parameter
 p0      = 0;                            % Vänster Randvillkor
 pL      = 0;                            % Höger randvillkor
 xi      = l/(N);                        % steglängd
-x       = [xi:xi:l]
+x       = [xi:xi:l]                     % x axel
 
 h = hmin*(1+k-(k/l).*x);                % värden för h med längd N
 

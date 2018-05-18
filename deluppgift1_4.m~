@@ -1,0 +1,11 @@
+%% Part 2 The analytical function for discribing pressure, p(x) =f1*f2
+
+%SETUP
+
+N = 10;
+L = 0.02;
+x = L/N;
+X
+
+f1 = @(mu,U,L,hmin) = 6*mu*U*L/(hmin^2);
+f2 = @(L,X)

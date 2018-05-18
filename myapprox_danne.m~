@@ -67,8 +67,8 @@ k       = linspace(0,1e-3,N+1);         % Slope parameter
 p0      = 0;                            % Vänster Randvillkor
 pL      = 0;                            % Höger randvillkor
 
-h = hmin*(1+k-(k/l));                % värden för h med längd N
-
+h = hmin*(1+k-(k/l));     Ä           % värden för h med längd N
+xs = l/N
 
 a = (h.^3)/(12*mu); %Längd N
 F = (U/2).*h;
