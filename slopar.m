@@ -1,5 +1,8 @@
 %% Varible slope parameter k.
 
+% A function for finding the best slope parameter
+
+
 %Setup
 N       = 512;                           % Antal obekanta/Antal delar på intervallet.
 mu      = 0.1;                          % Viscosity [Pas] 
@@ -38,7 +41,6 @@ u = A\f;
 %% Plot av tryck med varierande k.
 
 p = [p0 u' pL];
-figure
-plot(k,p);
 [maxval,maxindex] = max(p);
-xmax = maxindex/N
+kmax = k(maxindex)
+plot(k,p,kmax,maxval,'o');

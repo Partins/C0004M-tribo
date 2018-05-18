@@ -1,12 +1,14 @@
 %% Increasing x, while keeping konstant k.
+% A function for finding the pressure over the length of the bearing with a
+% konstant k.
 
 %Setup
-N       = 1000;                         % Antal obekanta/Antal delar på intervallet.
+N       = 1000;                         % Number of unknowns
 mu      = 0.01;                         % Viscosity [Pas] 
 U       = 1;                            % Runner speed [m/s]
-l       = 0.1;                         % Bearing length [m]
+l       = 0.1;                          % Bearing length [m]
 hmin    = 10^-6;                        % Trailing edge film thickness [m]
-k       = 1.18;                            % Slope parameter [No dimension].
+k       = 1.18;                         % Slope parameter [No dimension].
 p0      = 100000;                       % Vänster Randvillkor [Pa]
 pL      = 100000;                       % Höger randvillkor [Pa]
 xi      = l/(N);                        % steglängd
