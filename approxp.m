@@ -9,13 +9,12 @@ U       = 1;                            % Runner speed [m/s]
 l       = 0.1;                          % Bearing length [m]
 hmin    = 10^-6;                        % Trailing edge film thickness [m]
 k       = 1.18;                         % Slope parameter [No dimension].
-p0      = 100000;                       % Vänster Randvillkor [Pa]
-pL      = 100000;                       % Höger randvillkor [Pa]
-xi      = l/(N);                        % steglängd
-x       = [xi:xi:l]                     % x axel
+p0      = 100000;                       % left limit [Pa]
+pL      = 100000;                       % right limit [Pa]
+xi      = l/(N);                        % step length
+x       = [xi:xi:l]                     % x axis
 
-h = hmin*(1+k-(k/l).*x);                % värden för h med längd N
-
+h = hmin*(1+k-(k/l).*x);
 
 a = (h.^3)/(12*mu); %Längd N
 F = (U/2).*h;

@@ -1,6 +1,6 @@
 %% Varible slope parameter k.
 
-% A function for finding the best slope parameter
+% A function for finding the best slope parameter given limits p0 and pL.
 
 
 %Setup
@@ -16,14 +16,14 @@ xs      = l/N                           % steplength
 h       = hmin.*(1+k-(k./l).*xs);       % vektor h, with length N+1
 
 
-a = (h.^3)./(12.*mu); %Längd N+1
+a = (h.^3)./(12.*mu); %length N+1
 F = -(U/2).*h;
 
-%% Diagonaler matris A
+%% Diagonal matrix A
 
-c1 = (a(1:N-1)+a(2:N))/(2*xs^2); %underdiag
-d1 = -(a(1:N-1)+2*a(2:N)+a(3:N+1))/(2*xs^2); %huvudiag
-e1 = (a(2:N)+a(3:N+1))/(2.*xs.^2); %överdiag
+c1 = (a(1:N-1)+a(2:N))/(2*xs^2); %top diagonal
+d1 = -(a(1:N-1)+2*a(2:N)+a(3:N+1))/(2*xs^2); %main diagonal
+e1 = (a(2:N)+a(3:N+1))/(2.*xs.^2); %lower diagonal
 
 %% Högerled
 z = (F(3:N+1)-F(1:N-1))/(2*xs); %kontrollera 
