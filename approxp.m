@@ -16,33 +16,35 @@ x       = [xi:xi:l]                     % x axis
 
 h = hmin*(1+k-(k/l).*x);
 
-a = (h.^3)/(12*mu); %Längd N
+a = (h.^3)/(12*mu);
 F = (U/2).*h;
 
-%% Diagonaler matris A
+%% Diagonal vectors
 
-c1 = (a(1:N-1)+a(2:N))./(2.*x(1:N-1).^2); %underdiag
-d1 = -(a(1:N-1)+2*a(2:N)+a(1:N-1))./(2.*x(1:N-1).^2); %huvudiag
-e1 = (a(1:N-1)+a(2:N))./(2.*x(1:N-1).^2); %överdiag
+c1 = (a(1:N-1)+a(2:N))./(2.*x(1:N-1).^2); %lower diagonal
+d1 = -(a(1:N-1)+2*a(2:N)+a(1:N-1))./(2.*x(1:N-1).^2); %main diagonal
+e1 = (a(1:N-1)+a(2:N))./(2.*x(1:N-1).^2); %top diagonal
 
-%% Högerled
+%% Right hand side
 z = (F(2:N)-F(1:N-1))./(2.*x(1:N-1));
 
-%% Uppsättning matris A
+%% Setup vectors and sparse matrix A
 
 e = [0 e1(1:end-1)];
 c = [c1(2:end) 0];
-A = spdiags([c' d1' e'],[-1 0 1],N-1,N-1); %Se ekv.31, gles matris A
+A = spdiags([c' d1' e'],[-1 0 1],N-1,N-1);
 
-f = [z(1)-c1(1)*p0 z(2:end-1) z(N-1)-e(N-1)*pL]'; %Se ekv.32, högerled 
+f = [z(1)-c1(1)*p0 z(2:end-1) z(N-1)-e(N-1)*pL]';
 
-%% Lösning av ekvationssystem
+%% Solving the linear system of equations.
 u = A\f;
 
-%% Plot av tryck med varierande x, k konstant.
+%% Plotting p over x.
 x = [0 x]
 p = [p0 u' pL];
 plot(x,p);
+
+%% Finding max values
 
 [maxp,xval] = max(p);
 xloc = xval/N;
