@@ -1,6 +1,6 @@
 %% Evaluate p(x) analytically given a specifik k and a range of x.
 
-function px = realp(mu,U,L,hmin,x,k)
+function px = analyticp(mu,U,L,hmin,x,k)
 
 X = x/L; %vektor
 
