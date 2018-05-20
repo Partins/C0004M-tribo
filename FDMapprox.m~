@@ -100,7 +100,6 @@ ylabel('$p(x) [Pa]$','interpreter','latex','fontsize',16);
 
 
 %Plotting the results for the LCC
-
 figure('Name','LCC','NumberTitle','off');
 plot(k,fa,k,fx,'.')
 legend('LCC numerical','LCC analytical')
