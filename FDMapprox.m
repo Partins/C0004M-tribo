@@ -6,7 +6,7 @@ cc;
 %% Setup
 
 % Variables vareing over N.
-N       = 100;                          % Number of unknowns, "resolution"
+N       = 10;                          % Number of unknowns, "resolution"
 l       = 0.1;                          % Bearing length [m]
 xi      = l/(N);                        % step length
 x       = [0:xi:l];                     % x axis
@@ -14,8 +14,8 @@ k       = linspace(0,4,N);              % Slope parameter where 0<=k<=4
 
 % Setup for Convergence study
 
-NL = 128;
-NU = 256;
+NL = 50;
+NU = 250;
 
 % Constants
 mu      = 0.01;                         % Viscosity [Pas] 
@@ -62,7 +62,7 @@ p = [p0 p' pL];
 %% Controll p(x) analytically
 
 %Call function returning analyticall value for p(x)
-    if i ==1
+    if i == 1
         px = zeros(length(x),1);
     else
         px = realp(mu,U,l,hmin,x,k(i));
@@ -87,16 +87,17 @@ fx(1) = p0;
 
 %% Plotting the approximated pressure and the analyticall pressure and plotting the approximated Load Carrying Capacity against the analytical result
 %Removing dimensions from the approximation fa.
+
 f1 = (6*mu*U*l^2)/(hmin^2);
 fa = fa/f1;
 
 %Plotting the approximated pressure p against the analyticall pressure px
-%over x.
+%over x for k = K(N) = 4.
 figure('Name','Pressure over 0<=x<=l','NumberTitle','off');
 plot(x,p,x,px,'.')
 legend('p(x) numerical','p(x) analytical')
 xlabel('$x$ [m]','interpreter','latex','fontsize',16);
-ylabel('$p(x) [Pa]$','interpreter','latex','fontsize',16);
+ylabel('$p(x) [Pa], k=4$','interpreter','latex','fontsize',16);
 
 
 %Plotting the results for the LCC
