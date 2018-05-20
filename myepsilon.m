@@ -1,13 +1,11 @@
-%% This scrip and its related functions realp(),trap() use
-% well known numerical methods for approximating the Load Carrying Capacaty
-% over a 1D padtilt-bearing.
-cc;
-tic;
+%% This function calculates the realtive error between the analytical and numerical values for the LCC.
+
+function epsilon = myepsilon(N) %N = Number of elements N used for the approximation.
+
 
 %% Setup
 
 % Variables vareing over N.
-N       = 100;                         % Number of unknowns, "resolution"
 l       = 0.1;                          % Bearing length [m]
 xi      = l/(N);                        % step length
 x       = [0:xi:l];                     % x axis
@@ -21,14 +19,16 @@ p0      = 0;                            % left limit [Pa]
 pL      = 0;                            % right limit [Pa]
 
 %% LOOP FOR VALUES OF FORCE(N) ANALYTICALLY AND NUMERICALLY
-% In the following loop the script will approximate the pressure p over x
+% In the following loop the function will approximate the pressure p over x
 % given a k where k = k(i) 
 % The integral of p(x) is then approximated using the trapezoidal rule
-% using function trap.m
+% using the function trap.m
 
 for i = 1:N
     
-% Creating a linear system of equations given k(i) and solving for p.
+%% Creating a linear system of equations given k(i) and solving for p.
+
+% Setup.
 h = hmin.*(1+k(i)-(k(i)./l).*x);
 F = (U/2).*h;
 a = (h.^3)/(12*mu);
@@ -37,7 +37,7 @@ a = (h.^3)/(12*mu);
 
 c1 = (a(1:N-1)+a(2:N))./(2*xi^2); %lower diagonal
 d1 = -(a(1:N-1)+2*a(2:N)+a(3:N+1))./(2*xi^2); %main diagonal
-e1 = (a(2:N)+a(3:N+1))./(2*xi^2); %top diagonal
+e1 = (a(2:N)+a(3:N+1))./(2*xi^2); %upper diagonal
 
 z = (F(3:N+1)-F(1:N-1))./(2.*xi);
 
@@ -55,16 +55,6 @@ p = A\f;
 % pressure including boundary conditions.
 p = [p0 p' pL];
 
-%% Controll p(x) analytically
-
-Call function returning analyticall value for p(x)
-    if i ==1
-        px = zeros(length(x),1);
-    else
-        px = realp(mu,U,l,hmin,x,k(i));
-    end
-%     
-%     
 %% Numerical approximation for Integrating p(x)
 
 % Numerical approximation over x for the load carrying capacity given a 
@@ -75,33 +65,14 @@ Call function returning analyticall value for p(x)
     else
         fa = [fa trap(p,0,l,N)]; 
     end
+    
 
 end
-%% The analytical integration for N(k) without dimension.
 fx = log(1+k)./k.^2 - 2./(2+k)./k;
 fx(1) = p0;
-
-%% Plot the approximated Load Carrying Capacity against the analytical result.
-
-%Removing dimensions from the approximation fa.
 f1 = (6*mu*U*l^2)/(hmin^2);
-fa = fa/f1;
+fa = fa/f1; %Remove dimension.
 
-%Plotting the results.
-figure('Name','LCC','NumberTitle','off');
-plot(k,fa,k,fx,'.')
-legend('LCC numerical','LCC analytical')
-xlabel('$k$','interpreter','latex','fontsize',16);
-ylabel('$\overline{N}$','interpreter','latex','fontsize',16);
+epsilon = (fa-fx)/fx;
 
-%% Convergence study for the relative error
-NL = 128;
-NU = 256;
-epsilon = ones(1,NU-NL);
-for t = 1:NU-NL+1
-   epsilon(t) = myepsilon(t+NL);
 end
-figure('Name','Relative error','NumberTitle','off');
-plot(NL:NU,epsilon)
-xlabel('$N$','interpreter','latex','fontsize',18);
-ylabel('$\epsilon$','interpreter','latex','fontsize',24);
