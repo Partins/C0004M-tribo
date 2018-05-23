@@ -57,17 +57,15 @@ p = [p0 p' pL];
 
 %% Numerical approximation for Integrating p(x)
 
-% Numerical approximation over x for the load carrying capacity given a 
-% specifik k. using the trapezoid rule.
-
-    if i == 1
-        fa = trap(p,0,l,N);
-    else
-        fa = [fa trap(p,0,l,N)]; 
-    end
-    
+if i == 1
+    fa = trapz(x,p);
+else
+    fa = [fa trapz(x,p)];
+end
 
 end
+
+%Compute the realtive error.
 fx = log(1+k)./k.^2 - 2./(2+k)./k;
 fx(1) = p0;
 f1 = (6*mu*U*l^2)/(hmin^2);

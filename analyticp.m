@@ -2,7 +2,7 @@
 
 function px = analyticp(mu,U,L,hmin,x,k)
 
-X = x/L; %vektor
+X = x/L; %dimensionless vektor.
 
 f1 = (6*mu*U*L)/(hmin^2); %konstant
 

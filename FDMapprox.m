@@ -1,11 +1,9 @@
-%% This scrip and its related functions realp(),trap() use
-% well known numerical methods for approximating the Load Carrying Capacaty
-% over a 1D padtilt-bearing.
-cc;
+%% A FDM based solver for the Load carrying capacity of a 1D tilted pad bearing. 
+clear all; clc;
 
 %% Setup
 
-% Variables vareing over N.
+% Variables varying over N.
 N       = 10;                          % Number of unknowns, "resolution"
 l       = 0.1;                          % Bearing length [m]
 xi      = l/(N);                        % step length
@@ -14,8 +12,8 @@ k       = linspace(0,4,N);              % Slope parameter where 0<=k<=4
 
 % Setup for Convergence study
 
-NL = 50;
-NU = 250;
+NL = 10;
+NU = 50;
 
 % Constants
 mu      = 0.01;                         % Viscosity [Pas] 
@@ -43,7 +41,7 @@ c1 = (a(1:N-1)+a(2:N))./(2*xi^2); %lower diagonal
 d1 = -(a(1:N-1)+2*a(2:N)+a(3:N+1))./(2*xi^2); %main diagonal
 e1 = (a(2:N)+a(3:N+1))./(2*xi^2); %top diagonal
 
-z = (F(3:N+1)-F(1:N-1))./(2.*xi);
+z = (F(3:N+1)-F(1:N-1))./(2.*xi); %right hand side
 
 % Setup vectors and sparse matrix A
 
@@ -51,7 +49,7 @@ e = [0 e1(1:end-1)];
 c = [c1(2:end) 0];
 A = spdiags([c' d1' e'],[-1 0 1],N-1,N-1);
 
-f = [z(1)-c1(1)*p0 z(2:end-1) z(N-1)-e(N-1)*pL]';
+f = [z(1)-c1(1)*p0 z(2:end-1) z(N-1)-e(N-1)*pL]'; %right hand side
 
 % Solving the linear system of equations.
 p = A\f;
@@ -65,7 +63,7 @@ p = [p0 p' pL];
     if i == 1
         px = zeros(length(x),1);
     else
-        px = realp(mu,U,l,hmin,x,k(i));
+        px = analyticp(mu,U,l,hmin,x,k(i));
     end
 %     
 %     
